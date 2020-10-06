@@ -1,78 +1,37 @@
-<<<<<<< HEAD
 require 'pry'
-=======
 class CashRegister
-    attr_accessor :total, :discount, :last_transaction
-
-    def initialize(discount = 0)
-        @total = 0.0 
-        @discount = discount
-        @items = []
-    end
-
-    def add_item(title, price, quantity = 1)
-         @total += price * quantity
-         quantity.times do
-            @items << title
-         end
-         @last_transaction = title, price, quantity
-    end
-
-
-    def apply_discount
-        #appplies the discount from initialize means use @ 
-        if @discount > 0 
-            @discount = @discount/100.to_f
-            @total = @total - (@total * (@discount))
-            "After the discount, the total comes to $#{@total.to_i}."
-        else
-            "There is no discount to apply."
-        end
-         
-    end 
-
-    def items 
-        @items 
-    end
-
-    def void_last_transaction #(items, total)
-        @total -= @last_transaction[1] * @last_transaction[2]
-    end
-
-
-end
-
-# puts trader_joes_reg2 = CashRegister.new
-# pp trader_joes_reg2.add_item("apple",3.99,2)
-# pp trader_joes_reg2.add_item("motts_gummies", 1.99)
-# pp trader_joes_reg2.items
-# pp trader_joes_reg2.total
-# puts trader_joes_reg2.last_transaction
-# puts trader_joes_reg2.void_last_transaction
-# puts trader_joes_reg2.void_last_transaction
-# puts trader_joes_reg2.void_last_transaction
-# puts trader_joes_reg2.total
-
-
->>>>>>> 38e6a330cb3230e46e55b209f78691dabdde70f5
-
-class CashRegister
-
-    attr_accessor :total, :discount
-
-    def initialize(discount=20)
+   
+    attr_accessor :total, :discount, :items, :last_transaction
+    def initialize(discount=0)
         @total = 0
         @discount = discount
+        @items = []  
+        @last_transaction = [] 
     end
 
     def add_item(title, price, quantity=1)
-        #  binding.pry
         self.total += price * quantity
-        #why don't we need a title attribute accessor?
+        quantity.times do |i|
+          self.items << title
+        end     
+        @last_transaction << price * quantity 
     end
     
     def apply_discount 
-        
+        discount_total = self.total * self.discount/100 
+        self.total -= discount_total
+        if discount_total > 0
+            "After the discount, the total comes to $#{self.total}." 
+        else
+            "There is no discount to apply." 
+        end    
     end 
+
+    def void_last_transaction
+      @total -= @last_transaction.pop
+
+    end
+
+    
    
 end
